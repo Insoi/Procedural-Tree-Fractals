@@ -1,8 +1,26 @@
 use bevy::prelude::*;
 
 pub fn setup_scene(
-    //mut commands: Commands,
-    //meshes: ResMut<Assets<Mesh>>,
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
-    println!("setup scene");
+    commands.spawn((
+        Mesh3d(meshes.add(Plane3d::default().mesh().size(10.0, 10.0))),
+        MeshMaterial3d(materials.add(Color::srgb(0.3, 0.5, 0.3))),
+        Transform::from_xyz(0.0, 0.0, 0.0),
+        ));
+
+    commands.spawn((
+        PointLight {
+          contact_shadows_enabled: true,
+            ..default()
+        },
+        Transform::from_xyz(4.0, 8.0, 4.0),
+        ));
+
+    commands.spawn((
+        Camera3d::default(),
+        Transform::from_xyz(-4.0, 6.0, 8.0).looking_at(Vec3::ZERO, Vec3::Y),
+        ));
 }
